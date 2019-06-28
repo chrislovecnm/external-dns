@@ -66,3 +66,9 @@ build.mini:
 
 clean:
 	@rm -rf build
+
+bazel-build:
+	@bazel build //...
+
+bazel-test:
+	@bazel test //...

@@ -3,6 +3,7 @@ load("@bazel_gazelle//:def.bzl", "gazelle")
 load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 
 # gazelle:prefix github.com/kubernetes-incubator/external-dns
+
 gazelle(
     name = "gazelle",
 )
@@ -30,6 +31,7 @@ go_binary(
     name = "external-dns",
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
+    x_defs = {"github.com/kubernetes-incubator/external-dns/pkg/apis/externaldns.Version": "{VERSION}"},
 )
 
 go_image(

@@ -124,6 +124,7 @@ go_test(
         "zone_type_filter_test.go",
         "zonefinder_test.go",
     ],
+    data = ["//internal/testresources:certs"],
     embed = [":go_default_library"],
     deps = [
         "//endpoint:go_default_library",
@@ -166,5 +167,4 @@ go_test(
         "@org_golang_google_api//googleapi:go_default_library",
         "@org_golang_x_net//context:go_default_library",
     ],
-    data = ["//internal/testresources:certs"]
 )
