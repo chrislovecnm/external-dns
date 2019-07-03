@@ -1,2 +1,8 @@
 build --workspace_status_command=$PWD/status.sh
-build --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64
+build --incompatible_use_python_toolchains
+build --host_force_python=PY2
+test --incompatible_use_python_toolchains
+test --host_force_python=PY2
+run --incompatible_use_python_toolchains
+run --host_force_python=PY2
+run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64
