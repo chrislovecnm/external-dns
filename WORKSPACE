@@ -1,11 +1,10 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-
 http_archive(
     name = "io_bazel_rules_go",
-    urls = ["https://github.com/bazelbuild/rules_go/archive/8ea79bbd5e6ea09dc611c245d1dc09ef7ab7118a.tar.gz"],
-    sha256 = "039c159e8f16a365a5f0ce31c8e6ca8acba5708962e904c1f164ba79fb8efe4d",
-    strip_prefix = "rules_go-8ea79bbd5e6ea09dc611c245d1dc09ef7ab7118a",
+    urls = ["https://github.com/bazelbuild/rules_go/archive/bf51fd0698feb9b495bc7ae17f77782138746455.tar.gz"],
+    sha256 = "6eb05605adb5687bd45d960a153b3ab4052c239f1fd357173dac58241a5df17b",
+    strip_prefix = "rules_go-bf51fd0698feb9b495bc7ae17f77782138746455",
 )
 
 http_archive(
@@ -14,38 +13,19 @@ http_archive(
     sha256 = "3c681998538231a2d24d0c07ed5a7658cb72bfb5fd4bf9911157c0e9ac6a2687",
 )
 
-
 load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies", "go_register_toolchains")
-
 go_rules_dependencies()
-
 go_register_toolchains()
 
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
-
 gazelle_dependencies()
 
 # Download the rules_docker repository at release v0.8.1
-# This is not working with the latest version of the rules_go
-#http_archive(
-#    name = "io_bazel_rules_docker",
-#    sha256 = "87fc6a2b128147a0a3039a2fd0b53cc1f2ed5adb8716f50756544a572999ae9a",
-#    strip_prefix = "rules_docker-0.8.1",
-#    urls = ["https://github.com/bazelbuild/rules_docker/archive/v0.8.1.tar.gz"],
-#)
-
 http_archive(
     name = "io_bazel_rules_docker",
-    sha256 = "3556d4972571f288f8c43378295d84ed64fef5b1a875211ee1046f9f6b4258fa",
-    strip_prefix = "rules_docker-0.8.0",
-    urls = ["https://github.com/bazelbuild/rules_docker/archive/v0.8.0.tar.gz"],
-)
-
-
-register_toolchains(
-    "@io_bazel_rules_docker//toolchains/docker:default_linux_toolchain",
-    "@io_bazel_rules_docker//toolchains/docker:default_windows_toolchain",
-    "@io_bazel_rules_docker//toolchains/docker:default_osx_toolchain",
+    sha256 = "87fc6a2b128147a0a3039a2fd0b53cc1f2ed5adb8716f50756544a572999ae9a",
+    strip_prefix = "rules_docker-0.8.1",
+    urls = ["https://github.com/bazelbuild/rules_docker/archive/v0.8.1.tar.gz"],
 )
 
 load("@io_bazel_rules_docker//toolchains/docker:toolchain.bzl",
@@ -55,8 +35,13 @@ docker_toolchain_configure(
   name = "docker_config",
 )
 
-load("@io_bazel_rules_docker//go:image.bzl", _go_image_repos = "repositories")
+load(
+    "@io_bazel_rules_docker//repositories:repositories.bzl",
+    container_repositories = "repositories",
+)
+container_repositories()
 
+load("@io_bazel_rules_docker//go:image.bzl", _go_image_repos = "repositories")
 _go_image_repos()
 
 go_repository(
